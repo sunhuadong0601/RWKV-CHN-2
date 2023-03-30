@@ -18,7 +18,7 @@ os.environ["RWKV_CUDA_ON"] = '1' # if '1' then use CUDA kernel for seq mode (muc
 
 from rwkv.model import RWKV
 model_path = hf_hub_download(repo_id="BlinkDL/rwkv-4-pile-7b", filename="RWKV-4-Pile-7B-Chn-testNovel-664-ctx2048-20230327.pth")
-model = RWKV(model=model_path, strategy='cuda fp16')
+model = RWKV(model=model_path, strategy='cuda fp16i8 *8 -> cuda fp16')
 from rwkv.utils import PIPELINE, PIPELINE_ARGS
 pipeline = PIPELINE(model, "20B_tokenizer.json")
 
