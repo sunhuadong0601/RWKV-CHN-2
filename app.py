@@ -6,11 +6,7 @@ from pynvml import *
 nvmlInit()
 gpu_h = nvmlDeviceGetHandleByIndex(0)
 ctx_limit = 2048
-desc = f'''链接：
-<a href='https://github.com/BlinkDL/ChatRWKV' target="_blank" style="margin:0 0.5em">ChatRWKV</a>
-<a href='https://github.com/BlinkDL/RWKV-LM' target="_blank" style="margin:0 0.5em">RWKV-LM</a>
-<a href="https://pypi.org/project/rwkv/" target="_blank" style="margin:0 0.5em">RWKV pip package</a>
-<a href="https://zhuanlan.zhihu.com/p/618011122" target="_blank" style="margin:0 0.5em">知乎教程</a>
+desc = f'''链接：<a href='https://github.com/BlinkDL/ChatRWKV' target="_blank" style="margin:0 0.5em">ChatRWKV</a><a href='https://github.com/BlinkDL/RWKV-LM' target="_blank" style="margin:0 0.5em">RWKV-LM</a><a href="https://pypi.org/project/rwkv/" target="_blank" style="margin:0 0.5em">RWKV pip package</a><a href="https://zhuanlan.zhihu.com/p/618011122" target="_blank" style="margin:0 0.5em">知乎教程</a>
 '''
 
 os.environ["RWKV_JIT_ON"] = '1'
@@ -78,12 +74,12 @@ def infer(
     yield out_str
 
 examples = [
-    ["通过基因改造，修真", 200, 1, 0.8, 0.1, 0.1],
-    ["我问智脑：“三体人发来了信息，告诉我不要回答，这是他们的阴谋吗？”", 200, 1, 0.8, 0.1, 0.1],
-    ["“三体人的修仙功法与地球不同，最大的区别", 200, 1, 0.8, 0.1, 0.1],
-    ["“我们都知道，魔法的运用有四个阶段，第一", 200, 1, 0.8, 0.1, 0.1],
-    ["无论怎样，我必须将这些恐龙养大", 200, 1, 0.8, 0.1, 0.1],
-    ["“区区", 200, 1, 0.8, 0.1, 0.1],
+    ["通过基因改造，修真", 200, 1.3, 0.7, 0.1, 0.1],
+    ["我问智脑：“三体人发来了信息，告诉我不要回答，这是他们的阴谋吗？”", 200, 1.3, 0.7, 0.1, 0.1],
+    ["“三体人的修仙功法与地球不同，最大的区别", 200, 1.3, 0.7, 0.1, 0.1],
+    ["“我们都知道，魔法的运用有四个阶段，第一", 200, 1.3, 0.7, 0.1, 0.1],
+    ["无论怎样，我必须将这些恐龙养大", 200, 1.3, 0.7, 0.1, 0.1],
+    ["“区区", 200, 1.3, 0.7, 0.1, 0.1],
 ]
 
 iface = gr.Interface(
@@ -93,8 +89,8 @@ iface = gr.Interface(
     inputs=[
         gr.Textbox(lines=10, label="Prompt 输入的前文", value="通过基因改造，修真"),  # prompt
         gr.Slider(10, 200, step=10, value=200, label="token_count 每次生成的长度"),  # token_count
-        gr.Slider(0.2, 2.0, step=0.1, value=1, label="temperature 默认1，高则变化丰富，低则保守求稳"),  # temperature
-        gr.Slider(0.0, 1.0, step=0.05, value=0.8, label="top_p 默认0.8，高则标新立异，低则循规蹈矩"),  # top_p
+        gr.Slider(0.2, 2.0, step=0.1, value=1.3, label="temperature 默认1.3，高则变化丰富，低则保守求稳"),  # temperature
+        gr.Slider(0.0, 1.0, step=0.05, value=0.7, label="top_p 默认0.7，高则标新立异，低则循规蹈矩"),  # top_p
         gr.Slider(0.0, 1.0, step=0.1, value=0.1, label="presencePenalty 默认0.1，避免写过的类似字"),  # presencePenalty
         gr.Slider(0.0, 1.0, step=0.1, value=0.1, label="countPenalty 默认0.1，额外避免写过多次的类似字"),  # countPenalty
     ],
