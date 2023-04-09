@@ -5,19 +5,19 @@ from huggingface_hub import hf_hub_download
 from pynvml import *
 nvmlInit()
 gpu_h = nvmlDeviceGetHandleByIndex(0)
-ctx_limit = 1848
+ctx_limit = 2048
 desc = f'''链接：
 <a href='https://github.com/BlinkDL/ChatRWKV' target="_blank" style="margin:0 0.5em">ChatRWKV</a>
 <a href='https://github.com/BlinkDL/RWKV-LM' target="_blank" style="margin:0 0.5em">RWKV-LM</a>
 <a href="https://pypi.org/project/rwkv/" target="_blank" style="margin:0 0.5em">RWKV pip package</a>
-<a href="https://zhuanlan.zhihu.com/p/609154637" target="_blank" style="margin:0 0.5em">知乎教程</a>
+<a href="https://zhuanlan.zhihu.com/p/618011122" target="_blank" style="margin:0 0.5em">知乎教程</a>
 '''
 
 os.environ["RWKV_JIT_ON"] = '1'
 os.environ["RWKV_CUDA_ON"] = '1' # if '1' then use CUDA kernel for seq mode (much faster)
 
 from rwkv.model import RWKV
-model_path = hf_hub_download(repo_id="BlinkDL/rwkv-4-pile-7b", filename="RWKV-4-Pile-7B-Chn-testNovel-done-ctx2048-20230404.pth")
+model_path = hf_hub_download(repo_id="BlinkDL/rwkv-4-novel", filename="RWKV-4-Novel-7B-v1-Chn-20230409-ctx4096.pth")
 model = RWKV(model=model_path, strategy='cuda fp16i8 *12 -> cuda fp16')
 from rwkv.utils import PIPELINE, PIPELINE_ARGS
 pipeline = PIPELINE(model, "20B_tokenizer.json")
@@ -88,7 +88,7 @@ examples = [
 
 iface = gr.Interface(
     fn=infer,
-    description=f'''这是纯网文模型，去除了英文和代码能力，但写小白文更强。<b>请点击例子（在页面底部）</b>，可编辑内容。这里只看输入的最后约1100字，请写好，标点规范，无错别字，否则电脑会模仿你的错误。<b>为避免占用资源，每次生成限制长度。可将输出内容复制到输入，然后继续生成</b>。推荐提高temp改善文采，降低topp改善逻辑，提高两个penalty避免重复，具体幅度请自己实验。{desc}''',
+    description=f'''这是纯网文模型，去除了英文和代码能力，但写小白文更强。<b>请点击例子（在页面底部）</b>，可编辑内容。这里只看输入的最后约1200字，请写好，标点规范，无错别字，否则电脑会模仿你的错误。<b>为避免占用资源，每次生成限制长度。可将输出内容复制到输入，然后继续生成</b>。推荐提高temp改善文采，降低topp改善逻辑，提高两个penalty避免重复，具体幅度请自己实验。{desc}''',
     allow_flagging="never",
     inputs=[
         gr.Textbox(lines=10, label="Prompt 输入的前文", value="通过基因改造，修真"),  # prompt
