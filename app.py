@@ -13,8 +13,9 @@ os.environ["RWKV_JIT_ON"] = '1'
 os.environ["RWKV_CUDA_ON"] = '1' # if '1' then use CUDA kernel for seq mode (much faster)
 
 from rwkv.model import RWKV
-model_path = hf_hub_download(repo_id="BlinkDL/rwkv-4-novel", filename="RWKV-4-Novel-7B-v1-Chn-20230409-ctx4096.pth")
-model = RWKV(model=model_path, strategy='cuda fp16i8 *12 -> cuda fp16')
+# model_path = hf_hub_download(repo_id="BlinkDL/rwkv-4-novel", filename="RWKV-4-Novel-7B-v1-Chn-20230409-ctx4096.pth")
+# model = RWKV(model=model_path, strategy='cuda fp16i8 *12 -> cuda fp16')
+model = RWKV(model='/workspace/RWKV-4-Novel-7B-v1-Chn-20230409-ctx4096', strategy='cuda fp16i8 *12 -> cuda fp16')
 from rwkv.utils import PIPELINE, PIPELINE_ARGS
 pipeline = PIPELINE(model, "20B_tokenizer.json")
 
